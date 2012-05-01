@@ -95,7 +95,32 @@
       padMs3(String(this.getUTCMilliseconds())), "Z"
     ].join("");
   }
-
+  
+  function _getMonthNameFromDate(date) {
+  	months = [	"January",
+					"February",
+					"March",
+					"April",
+					"May",
+					"June",
+					"July",
+					"August",
+					"September",
+					"October",
+					"November",
+					"December"];
+	return months[date.getMonth()];
+  }
+  
+  function getMonthName() {
+	return _getMonthNameFromDate(this);
+  }
+  
+  function getMonthAbbreviation(opts) {
+	if (!opts) opts = {};
+	if (!opts.length) opts.length = 3;
+	return _getMonthNameFromDate(this).substr(0,opts.length);
+  }
 
   // Do nothing if this interpretor is es5 ready
   // otherwise, add es5 functionality
@@ -106,6 +131,14 @@
 
   if (!Date.prototype.toISOString) {
     Date.prototype.toISOString = Date.prototype.toISOString || toISOString;
+  }
+  
+  if (!Date.prototype.getMonthName) {
+  	Date.prototype.getMonthName = Date.prototype.getMonthName || getMonthName;
+  }
+  
+  if (!Date.prototype.getMonthAbbreviation) {
+  	Date.prototype.getMonthAbbreviation = Date.prototype.getMonthAbbreviation || getMonthAbbreviation;
   }
 
 }());
