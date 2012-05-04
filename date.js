@@ -97,7 +97,7 @@
   }
   
   function _getMonthNameFromDate(date) {
-  	months = [	"January",
+  	var months = [	"January",
 					"February",
 					"March",
 					"April",
@@ -112,6 +112,11 @@
 	return months[date.getMonth()];
   }
   
+  function getDayName() {
+  	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  	return days[this.getDay()];
+  }
+  
   function getMonthName() {
 	return _getMonthNameFromDate(this);
   }
@@ -120,6 +125,13 @@
 	if (!opts) opts = {};
 	if (!opts.length) opts.length = 3;
 	return _getMonthNameFromDate(this).substr(0,opts.length);
+  }
+  
+  function midnight() {
+  	if (this.getHours() == 0 && this.getMinutes() == 0 && this.getSeconds() == 0 && this.getMilliseconds() == 0)
+  		return this;
+  	
+  	return new Date(this.getFullYear(), this.getMonth(), this.getDate(), 0, 0, 0, 0);
   }
 
   // Do nothing if this interpretor is es5 ready
@@ -133,8 +145,16 @@
     Date.prototype.toISOString = Date.prototype.toISOString || toISOString;
   }
   
+  if (!Date.prototype.getDayName) {
+  	Date.prototype.getDayName = Date.prototype.getDayName || getDayName;
+  }
+  
   if (!Date.prototype.getMonthName) {
   	Date.prototype.getMonthName = Date.prototype.getMonthName || getMonthName;
+  }
+  
+  if (!Date.prototype.midnight) {
+  	Date.prototype.midnight = Date.prototype.midnight || midnight;
   }
   
   if (!Date.prototype.getMonthAbbreviation) {
